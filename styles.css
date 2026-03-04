@@ -1,0 +1,15 @@
+.loader {
+    border-top-color: #4f46e5;
+    -webkit-animation: spinner 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+    animation: spinner 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+}
+
+@keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.bg-grid-pattern {
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 24px 24px;
+}

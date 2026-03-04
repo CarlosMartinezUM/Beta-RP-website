@@ -8,6 +8,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="styles.css">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -20,21 +23,6 @@
             }
         }
     </script>
-    <style>
-        .loader {
-            border-top-color: #4f46e5;
-            -webkit-animation: spinner 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
-            animation: spinner 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
-        }
-        @keyframes spinner {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .bg-grid-pattern {
-            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
-    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
 
@@ -51,6 +39,7 @@
                     <a href="#tool" class="text-sm text-slate-600 hover:text-indigo-600 font-semibold transition-colors">RP Computer</a>
                     <a href="#resources" class="text-sm text-slate-600 hover:text-indigo-600 font-semibold transition-colors">Packages</a>
                     <a href="#papers" class="text-sm text-slate-600 hover:text-indigo-600 font-semibold transition-colors">Research</a>
+                    <button onclick="toggleAuthorModal(event)" class="text-sm text-slate-600 hover:text-indigo-600 font-semibold transition-colors">Authors</button>
                 </div>
 
                 <div class="flex items-center md:hidden">
@@ -66,6 +55,7 @@
                 <a href="#tool" onclick="toggleMobileMenu()" class="block text-base text-slate-700 font-semibold hover:text-indigo-600 transition-colors">RP Computer</a>
                 <a href="#resources" onclick="toggleMobileMenu()" class="block text-base text-slate-700 font-semibold hover:text-indigo-600 transition-colors">Packages</a>
                 <a href="#papers" onclick="toggleMobileMenu()" class="block text-base text-slate-700 font-semibold hover:text-indigo-600 transition-colors">Research</a>
+                <button onclick="toggleAuthorModal(event); toggleMobileMenu()" class="block w-full text-left text-base text-slate-700 font-semibold hover:text-indigo-600 transition-colors">Authors</button>
             </div>
         </div>
     </nav>
@@ -93,7 +83,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <div class="max-w-7xl mx-auto px-6 lg:px-8 py-24">
         
@@ -209,8 +198,12 @@
                         </div>
                         <h3 class="text-xl font-bold text-slate-900">MATLAB Toolbox</h3>
                     </div>
-                    <p class="text-slate-600 mb-6 flex-grow relative z-10 text-sm leading-relaxed">
-                        A comprehensive collection of MATLAB scripts and functions tailored for generating and analyzing β-divergence Recurrence Plots.
+                    
+                    <p class="text-slate-600 mb-2 flex-grow relative z-10 text-sm leading-relaxed">
+                        A collection of MATLAB scripts and functions for generating and analyzing β-divergence RPs.
+                    </p>
+                    <p class="text-sm text-gray-500 mb-6 italic relative z-10">
+                        The toolbox can be cited as: [Placeholder for reference]
                     </p>
                     
                     <div class="bg-slate-900 p-4 rounded-xl text-xs font-mono text-emerald-400 mb-6 w-full shadow-inner relative z-10 flex justify-between items-center group/code">
@@ -235,8 +228,12 @@
                         </div>
                         <h3 class="text-xl font-bold text-slate-900">Python Package</h3>
                     </div>
-                    <p class="text-slate-600 mb-6 flex-grow relative z-10 text-sm leading-relaxed">
-                        A modern, pip-installable Python package providing an optimized implementation for computing β-divergence RPs.
+                    
+                    <p class="text-gray-600 mb-2 flex-grow relative z-10 text-sm leading-relaxed">
+                        This Python package provides an implementation for computing β-divergence RPs.
+                    </p>
+                    <p class="text-sm text-gray-500 mb-6 italic relative z-10">
+                        The package can be cited as: [Placeholder for reference]
                     </p>
 
                     <div class="bg-slate-900 p-4 rounded-xl text-xs font-mono text-blue-300 mb-6 w-full shadow-inner relative z-10 flex justify-between items-center group/code">
@@ -258,7 +255,7 @@
                 <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center mr-4">
                     <i class="fa-solid fa-book-bookmark text-2xl text-emerald-600"></i>
                 </div>
-                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Research Papers</h2>
+                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Publications</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -268,10 +265,16 @@
                     </div>
                     <h3 class="text-base font-bold text-slate-900 mb-3 leading-snug group-hover:text-emerald-700 transition-colors">Beta-Divergence-Based RPs for Time Series Analysis: Properties and Applications</h3>
                     <p class="text-sm text-slate-500 mb-6 flex-grow"></p>
-                    <div class="mt-auto grid grid-cols-2 gap-3">
-                        <a href="papers/Beta-Divergence-Based_RPs_for_Time_Series.pdf" target="_blank" class="col-span-2 inline-flex items-center justify-center w-full px-4 py-2.5 border border-slate-200 text-xs font-bold rounded-xl text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors">
-                            <i class="fa-solid fa-file-pdf mr-2 text-red-500"></i> PDF
+                    <div class="mt-auto grid grid-cols-3 gap-2">
+                        <a href="papers/Beta-Divergence-Based_RPs_for_Time_Series.pdf" target="_blank" class="inline-flex items-center justify-center w-full px-2 py-2.5 border border-slate-200 text-xs font-bold rounded-xl text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors">
+                            <i class="fa-solid fa-file-pdf mr-1 text-red-500"></i> PDF
                         </a>
+                        <button disabled class="inline-flex items-center justify-center w-full px-2 py-2.5 border border-transparent text-xs font-bold rounded-xl text-white bg-slate-300 cursor-not-allowed">
+                            <i class="fa-brands fa-github mr-1"></i> Code
+                        </button>
+                        <button disabled class="inline-flex items-center justify-center w-full px-2 py-2.5 border border-slate-200 text-xs font-bold rounded-xl text-slate-400 bg-slate-50 cursor-not-allowed">
+                            <i class="fa-solid fa-quote-right mr-1"></i> BibTeX
+                        </button>
                     </div>
                 </div>
 
@@ -281,13 +284,16 @@
                     </div>
                     <h3 class="text-base font-bold text-slate-900 mb-3 leading-snug group-hover:text-emerald-700 transition-colors">Beta-Divergence-Based Recurrence Plots for Audio Time-Series Analysis</h3>
                     <p class="text-sm text-slate-500 mb-6 flex-grow">Proc. 33rd EUSIPCO, 2025.</p>
-                    <div class="mt-auto grid grid-cols-2 gap-3">
-                        <a href="papers/Beta-Divergence-Based_Recurrence_Plots_for_Audio.pdf" target="_blank" class="inline-flex items-center justify-center w-full px-4 py-2.5 border border-slate-200 text-xs font-bold rounded-xl text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors">
-                            <i class="fa-solid fa-file-pdf mr-2 text-red-500"></i> PDF
+                    <div class="mt-auto grid grid-cols-3 gap-2">
+                        <a href="papers/Beta-Divergence-Based_Recurrence_Plots_for_Audio.pdf" target="_blank" class="inline-flex items-center justify-center w-full px-2 py-2.5 border border-slate-200 text-xs font-bold rounded-xl text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors">
+                            <i class="fa-solid fa-file-pdf mr-1 text-red-500"></i> PDF
                         </a>
-                        <a href="https://gitlab.maastrichtuniversity.nl/I6359575/beta-divergence-recurrence-plots/-/tree/main" target="_blank" class="inline-flex items-center justify-center w-full px-4 py-2.5 border border-transparent text-xs font-bold rounded-xl text-white bg-slate-900 hover:bg-slate-800 transition-colors">
-                            <i class="fa-brands fa-gitlab mr-2"></i> Code
+                        <a href="https://gitlab.maastrichtuniversity.nl/I6359575/beta-divergence-recurrence-plots/-/tree/main" target="_blank" class="inline-flex items-center justify-center w-full px-2 py-2.5 border border-transparent text-xs font-bold rounded-xl text-white bg-slate-900 hover:bg-slate-800 transition-colors">
+                            <i class="fa-brands fa-gitlab mr-1"></i> Code
                         </a>
+                        <button onclick="copyBibtex('deckert2025', this)" class="inline-flex items-center justify-center w-full px-2 py-2.5 border border-slate-200 text-xs font-bold rounded-xl text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors">
+                            <i class="fa-solid fa-quote-right mr-1"></i> BibTeX
+                        </button>
                     </div>
                 </div>
 
@@ -297,19 +303,71 @@
                     </div>
                     <h3 class="text-base font-bold text-slate-900 mb-3 leading-snug group-hover:text-emerald-700 transition-colors">Beta-Divergence-Based Recurrence Analysis of EEG Signals for Seizure Detection</h3>
                     <p class="text-sm text-slate-500 mb-6 flex-grow">Submitted to EUSIPCO, 2026.</p>
-                    <div class="mt-auto grid grid-cols-2 gap-3">
-                        <a href="papers/Beta-Divergence-Based_Recurrence_Analysis_of_EEG.pdf" target="_blank" class="inline-flex items-center justify-center w-full px-4 py-2.5 border border-slate-200 text-xs font-bold rounded-xl text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors">
-                            <i class="fa-solid fa-file-pdf mr-2 text-red-500"></i> PDF
+                    <div class="mt-auto grid grid-cols-3 gap-2">
+                        <a href="papers/Beta-Divergence-Based_Recurrence_Analysis_of_EEG.pdf" target="_blank" class="inline-flex items-center justify-center w-full px-2 py-2.5 border border-slate-200 text-xs font-bold rounded-xl text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors">
+                            <i class="fa-solid fa-file-pdf mr-1 text-red-500"></i> PDF
                         </a>
-                        <a href="https://github.com/FilipPolakowski/beta_div_recurrence_plots" target="_blank" class="inline-flex items-center justify-center w-full px-4 py-2.5 border border-transparent text-xs font-bold rounded-xl text-white bg-slate-900 hover:bg-slate-800 transition-colors">
-                            <i class="fa-brands fa-github mr-2"></i> Code
+                        <a href="https://github.com/FilipPolakowski/beta_div_recurrence_plots" target="_blank" class="inline-flex items-center justify-center w-full px-2 py-2.5 border border-transparent text-xs font-bold rounded-xl text-white bg-slate-900 hover:bg-slate-800 transition-colors">
+                            <i class="fa-brands fa-github mr-1"></i> Code
                         </a>
+                        <button onclick="copyBibtex('polakowski2026', this)" class="inline-flex items-center justify-center w-full px-2 py-2.5 border border-slate-200 text-xs font-bold rounded-xl text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-300 transition-colors">
+                            <i class="fa-solid fa-quote-right mr-1"></i> BibTeX
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
+    <div id="author-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/50 backdrop-blur-sm overflow-y-auto w-full h-full flex justify-center items-center" onclick="closeAuthorModal(event)">
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-5xl mx-4 my-8 p-8" onclick="event.stopPropagation()">
+            <button onclick="toggleAuthorModal(event)" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 text-2xl transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h2 class="text-3xl font-bold text-slate-900 mb-8 tracking-tight text-center">Authors</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center text-center hover:shadow-md transition-shadow">
+                    <img src="static/philippe_dreesen.jpg" alt="Dr. Ir. Philippe Dreesen" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm" onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
+                    <h3 class="font-bold text-slate-900">Dr. Ir. Philippe Dreesen</h3>
+                    <p class="text-xs text-indigo-600 font-semibold mb-2">Assistant Professor</p>
+                    <p class="text-xs text-slate-500 mb-4 flex-grow">Dept of Advanced Computing Sciences<br>Maastricht University</p>
+                    <button onclick="copyObfuscatedEmail(' ', 'maastrichtuniversity.nl', this)" class="text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg px-3 py-2 w-full transition-colors flex justify-center items-center">
+                        <i class="fa-solid fa-envelope mr-1"></i> Copy Email
+                    </button>
+                </div>
+
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center text-center hover:shadow-md transition-shadow">
+                    <img src="static/ralf_peeters.jpg" alt="Prof. Dr. Ir. Ralf Peeters" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm" onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
+                    <h3 class="font-bold text-slate-900">Prof. Dr. Ir. Ralf Peeters</h3>
+                    <p class="text-xs text-indigo-600 font-semibold mb-2">Full Professor</p>
+                    <p class="text-xs text-slate-500 mb-4 flex-grow">Dept of Advanced Computing Sciences<br>Maastricht University</p>
+                </div>
+
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center text-center hover:shadow-md transition-shadow">
+                    <img src="static/martijn_bousse.jpg" alt="Dr. Ir. Martijn Boussé" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm" onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
+                    <h3 class="font-bold text-slate-900">Dr. Ir. Martijn Boussé</h3>
+                    <p class="text-xs text-indigo-600 font-semibold mb-2">Assistant Professor</p>
+                    <p class="text-xs text-slate-500 mb-4 flex-grow">Dept of Advanced Computing Sciences<br>Maastricht University</p>
+                    <button onclick="copyObfuscatedEmail(' ', 'maastrichtuniversity.nl', this)" class="text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg px-3 py-2 w-full transition-colors flex justify-center items-center">
+                        <i class="fa-solid fa-envelope mr-1"></i> Copy Email
+                    </button>
+                </div>
+
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center text-center hover:shadow-md transition-shadow">
+                    <img src="static/carlos_martinez.jpg" alt="Carlos Martínez" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm" onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
+                    <h3 class="font-bold text-slate-900">Carlos Martínez</h3>
+                    <p class="text-xs text-indigo-600 font-semibold mb-2">PhD Student</p>
+                    <p class="text-xs text-slate-500 mb-4 flex-grow">Dept of Advanced Computing Sciences<br>Maastricht University</p>
+                    <button onclick="copyObfuscatedEmail('carlos.martinezgarcia', 'maastrichtuniversity.nl', this)" class="text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg px-3 py-2 w-full transition-colors flex justify-center items-center">
+                        <i class="fa-solid fa-envelope mr-1"></i> Copy Email
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <footer class="bg-slate-950 text-slate-500 py-12 text-center mt-10 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-6 flex flex-col items-center">
             <img src="static/UM_logo.jpg" alt="UM Logo" class="h-8 w-auto mb-6 opacity-50 grayscale hover:grayscale-0 transition-all" onerror="this.onerror=null; this.style.display='none';">
@@ -317,229 +375,6 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById('metric').value = 'beta';
-            toggleThresholdInput(); 
-        });
-
-        // Toggle mobile hamburger menu
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        function copyCode(text, btnElement) {
-            navigator.clipboard.writeText(text).then(() => {
-                const icon = btnElement.querySelector('i');
-                const originalClass = icon.className;
-                
-                icon.className = 'fa-solid fa-check text-green-400';
-                
-                setTimeout(() => {
-                    icon.className = originalClass;
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
-
-        function toggleBeta() {
-            const metric = document.getElementById('metric').value;
-            const betaGroup = document.getElementById('beta_group');
-            betaGroup.style.display = (metric === 'beta') ? 'block' : 'none';
-        }
-
-        function toggleThresholdInput() {
-            const rpType = document.getElementById('rp_type').value;
-            const thresholdInput = document.getElementById('threshold');
-            
-            if (rpType === 'unthresholded') {
-                thresholdInput.disabled = true;
-            } else {
-                thresholdInput.disabled = false;
-            }
-        }
-
-        function downloadImage() {
-            const imgElement = document.getElementById('result');
-            const link = document.createElement('a');
-            link.href = imgElement.src;
-            link.download = 'recurrence_plot.png';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        function linspace(start, end, num) {
-            const arr = [];
-            const step = (end - start) / (num - 1);
-            for (let i = 0; i < num; i++) arr.push(start + i * step);
-            return arr;
-        }
-
-        function getViridisColor(t) {
-            const stops = [
-                { pct: 0.00, c: [68, 1, 84] },
-                { pct: 0.25, c: [59, 82, 139] },
-                { pct: 0.50, c: [33, 145, 140] },
-                { pct: 0.75, c: [94, 201, 98] },
-                { pct: 1.00, c: [253, 231, 37] }
-            ];
-            if (t <= 0) return stops[0].c;
-            if (t >= 1) return stops[4].c;
-
-            for (let i = 0; i < stops.length - 1; i++) {
-                if (t >= stops[i].pct && t <= stops[i+1].pct) {
-                    let range = stops[i+1].pct - stops[i].pct;
-                    let localPct = (t - stops[i].pct) / range;
-                    return [
-                        Math.round(stops[i].c[0] + localPct * (stops[i+1].c[0] - stops[i].c[0])),
-                        Math.round(stops[i].c[1] + localPct * (stops[i+1].c[1] - stops[i].c[1])),
-                        Math.round(stops[i].c[2] + localPct * (stops[i+1].c[2] - stops[i].c[2]))
-                    ];
-                }
-            }
-        }
-
-        async function calculateRP() {
-            const funcStr = document.getElementById("function").value;
-            const metric = document.getElementById("metric").value;
-            const beta = parseFloat(document.getElementById('beta').value);
-            const rpType = document.getElementById('rp_type').value; 
-            const threshold = parseFloat(document.getElementById('threshold').value);
-            const m = parseInt(document.getElementById('embedding_dim').value);
-            const tau = parseInt(document.getElementById('time_delay').value);
-
-            const imgElement = document.getElementById('result');
-            const errorElement = document.getElementById('errorMessage');
-            const loadingElement = document.getElementById('loading');
-            const placeholderText = document.getElementById('placeholder-text');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const plotTitle = document.getElementById('plotTitle');
-
-            errorElement.classList.add('hidden');
-            imgElement.classList.add('hidden');
-            downloadBtn.classList.add('hidden');
-            plotTitle.classList.add('hidden');
-            placeholderText.classList.add('hidden');
-            loadingElement.classList.remove('hidden');
-            loadingElement.classList.add('flex');
-
-            await new Promise(r => setTimeout(r, 50));
-
-            try {
-                const t = linspace(0, 10, 500);
-                const compiled = math.compile(funcStr);
-                const series = t.map(v => compiled.evaluate({x: v}));
-
-                if (metric === 'beta' && series.some(val => val <= 0)) {
-                    throw new Error("For Beta divergence, the function must evaluate strictly to > 0 on the interval.");
-                }
-
-                const N = series.length;
-                const N_prime = N - (m - 1) * tau;
-
-                if (N_prime <= 0) {
-                    throw new Error("Time series is too short for the given embedding dimension and time delay.");
-                }
-
-                let distances = [];
-                let min_dist = Infinity;
-                let max_dist = -Infinity;
-
-                for (let i = 0; i < N_prime; i++) {
-                    distances[i] = [];
-                    let vec_i = [];
-                    for (let k = 0; k < m; k++) vec_i.push(series[i + k * tau]);
-
-                    for (let j = 0; j < N_prime; j++) {
-                        let vec_j = [];
-                        for (let k = 0; k < m; k++) vec_j.push(series[j + k * tau]);
-
-                        let dist = 0;
-                        if (metric === 'euclidean') {
-                            let sumSq = 0;
-                            for (let k = 0; k < m; k++) {
-                                let diff = vec_i[k] - vec_j[k];
-                                sumSq += diff * diff;
-                            }
-                            dist = Math.sqrt(sumSq);
-                        } else if (metric === 'beta') {
-                            for (let k = 0; k < m; k++) {
-                                let x = vec_i[k];
-                                let y = vec_j[k];
-                                let div = 0;
-                                if (Math.abs(beta - 1.0) < 0.001) {
-                                    div = x * Math.log(x/y) - x + y;
-                                } else if (Math.abs(beta - 0.0) < 0.001) {
-                                    div = (x/y) - Math.log(x/y) - 1.0;
-                                } else {
-                                    div = (Math.pow(x, beta) + (beta - 1)*Math.pow(y, beta) - beta * x * Math.pow(y, beta - 1)) / (beta * (beta - 1));
-                                }
-                                dist += div;
-                            }
-                        }
-                        distances[i][j] = dist;
-                        if (dist < min_dist) min_dist = dist;
-                        if (dist > max_dist) max_dist = dist;
-                    }
-                }
-
-                const canvas = document.createElement("canvas");
-                canvas.width = N_prime;
-                canvas.height = N_prime;
-                const ctx = canvas.getContext("2d");
-                const imgData = ctx.createImageData(N_prime, N_prime);
-
-                for (let i = 0; i < N_prime; i++) {
-                    for (let j = 0; j < N_prime; j++) {
-                        let dist = distances[i][j];
-                        
-                        let canvasX = j;
-                        let canvasY = N_prime - 1 - i; 
-                        let idx = (canvasY * N_prime + canvasX) * 4;
-
-                        if (rpType === 'thresholded') {
-                            if (dist < threshold) {
-                                imgData.data[idx] = 0; 
-                                imgData.data[idx+1] = 0; 
-                                imgData.data[idx+2] = 0; 
-                            } else {
-                                imgData.data[idx] = 255;
-                                imgData.data[idx+1] = 255; 
-                                imgData.data[idx+2] = 255; 
-                            }
-                            imgData.data[idx+3] = 255;
-                        } else {
-                            let norm = max_dist > min_dist ? (dist - min_dist) / (max_dist - min_dist) : 0;
-                            let color = getViridisColor(norm);
-                            imgData.data[idx] = color[0];
-                            imgData.data[idx+1] = color[1];
-                            imgData.data[idx+2] = color[2];
-                            imgData.data[idx+3] = 255;
-                        }
-                    }
-                }
-                ctx.putImageData(imgData, 0, 0);
-
-                loadingElement.classList.remove('flex');
-                loadingElement.classList.add('hidden');
-
-                plotTitle.innerText = metric === 'beta' ? `β-RP: f(x) = ${funcStr}` : `Euclidean-RP: f(x) = ${funcStr}`;
-                plotTitle.classList.remove('hidden');
-
-                imgElement.src = canvas.toDataURL("image/png");
-                imgElement.classList.remove('hidden');
-                downloadBtn.classList.remove('hidden');
-
-            } catch (err) {
-                loadingElement.classList.remove('flex');
-                loadingElement.classList.add('hidden');
-                errorElement.innerText = err.message || "An error occurred during calculation.";
-                errorElement.classList.remove('hidden');
-            }
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
