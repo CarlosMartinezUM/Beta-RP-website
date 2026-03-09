@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DACS β-RPs</title>
+    <title>DACSβ-RPs</title>
     <link rel="icon" type="image/png" href="static/recurrence_plot.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
@@ -40,7 +40,7 @@
                     <a href="#tool" class="text-sm text-slate-600 hover:text-indigo-600 font-semibold transition-colors">RP Computer</a>
                     <a href="#resources" class="text-sm text-slate-600 hover:text-indigo-600 font-semibold transition-colors">Packages</a>
                     <a href="#papers" class="text-sm text-slate-600 hover:text-indigo-600 font-semibold transition-colors">Research</a>
-                    <button onclick="toggleAuthorModal(event)" class="text-sm text-slate-600 hover:text-indigo-600 font-semibold transition-colors">Authors</button>
+                    <button onclick="toggleAuthorModal(event)" class="text-sm text-slate-600 hover:text-indigo-600 font-semibold transition-colors">Contact</button>
                 </div>
 
                 <div class="flex items-center md:hidden">
@@ -56,7 +56,7 @@
                 <a href="#tool" onclick="toggleMobileMenu()" class="block text-base text-slate-700 font-semibold hover:text-indigo-600 transition-colors">RP Computer</a>
                 <a href="#resources" onclick="toggleMobileMenu()" class="block text-base text-slate-700 font-semibold hover:text-indigo-600 transition-colors">Packages</a>
                 <a href="#papers" onclick="toggleMobileMenu()" class="block text-base text-slate-700 font-semibold hover:text-indigo-600 transition-colors">Research</a>
-                <button onclick="toggleAuthorModal(event); toggleMobileMenu()" class="block w-full text-left text-base text-slate-700 font-semibold hover:text-indigo-600 transition-colors">Authors</button>
+                <button onclick="toggleAuthorModal(event); toggleMobileMenu()" class="block w-full text-left text-base text-slate-700 font-semibold hover:text-indigo-600 transition-colors">Contact</button>
             </div>
         </div>
     </nav>
@@ -324,10 +324,20 @@
             <button onclick="toggleAuthorModal(event)" class="absolute top-6 right-6 text-slate-400 hover:text-slate-900 text-2xl transition-colors">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <h2 class="text-3xl font-bold text-slate-900 mb-8 tracking-tight text-center">Authors</h2>
+            <h2 class="text-3xl font-bold text-slate-900 mb-8 tracking-tight text-center">Contact</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
+
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center text-center hover:shadow-md transition-shadow">
+                    <img src="static/carlos_martinez.jpg" alt="Carlos Martínez" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm" onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
+                    <h3 class="font-bold text-slate-900">Carlos Martínez</h3>
+                    <p class="text-xs text-indigo-600 font-semibold mb-2">PhD Student</p>
+                    <p class="text-xs text-slate-500 mb-4 flex-grow">Dept of Advanced Computing Sciences<br>Maastricht University</p>
+                    <button onclick="copyObfuscatedEmail('carlos.martinezgarcia', 'maastrichtuniversity.nl', this)" class="text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg px-3 py-2 w-full transition-colors flex justify-center items-center">
+                        <i class="fa-solid fa-envelope mr-1"></i> Copy Email
+                    </button>
+                </div>
+
                 <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center text-center hover:shadow-md transition-shadow">
                     <img src="static/philippe_dreesen.jpg" alt="Dr. Ir. Philippe Dreesen" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm" onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
                     <h3 class="font-bold text-slate-900">Dr. Ir. Philippe Dreesen</h3>
@@ -336,13 +346,6 @@
                     <button onclick="copyObfuscatedEmail(' ', 'maastrichtuniversity.nl', this)" class="text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg px-3 py-2 w-full transition-colors flex justify-center items-center">
                         <i class="fa-solid fa-envelope mr-1"></i> Copy Email
                     </button>
-                </div>
-
-                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center text-center hover:shadow-md transition-shadow">
-                    <img src="static/ralf_peeters.jpg" alt="Prof. Dr. Ir. Ralf Peeters" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm" onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
-                    <h3 class="font-bold text-slate-900">Prof. Dr. Ir. Ralf Peeters</h3>
-                    <p class="text-xs text-indigo-600 font-semibold mb-2">Full Professor</p>
-                    <p class="text-xs text-slate-500 mb-4 flex-grow">Dept of Advanced Computing Sciences<br>Maastricht University</p>
                 </div>
 
                 <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center text-center hover:shadow-md transition-shadow">
@@ -356,13 +359,10 @@
                 </div>
 
                 <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 flex flex-col items-center text-center hover:shadow-md transition-shadow">
-                    <img src="static/carlos_martinez.jpg" alt="Carlos Martínez" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm" onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
-                    <h3 class="font-bold text-slate-900">Carlos Martínez</h3>
-                    <p class="text-xs text-indigo-600 font-semibold mb-2">PhD Student</p>
+                    <img src="static/ralf_peeters.jpg" alt="Prof. Dr. Ir. Ralf Peeters" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm" onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
+                    <h3 class="font-bold text-slate-900">Prof. Dr. Ir. Ralf Peeters</h3>
+                    <p class="text-xs text-indigo-600 font-semibold mb-2">Full Professor</p>
                     <p class="text-xs text-slate-500 mb-4 flex-grow">Dept of Advanced Computing Sciences<br>Maastricht University</p>
-                    <button onclick="copyObfuscatedEmail('carlos.martinezgarcia', 'maastrichtuniversity.nl', this)" class="text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg px-3 py-2 w-full transition-colors flex justify-center items-center">
-                        <i class="fa-solid fa-envelope mr-1"></i> Copy Email
-                    </button>
                 </div>
 
             </div>
