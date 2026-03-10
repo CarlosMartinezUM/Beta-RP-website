@@ -1,8 +1,148 @@
+// ============================================================
+// State
+// ============================================================
+let currentDataSource = 'function'; // 'function' | 'upload'
+let uploadedSeries = null;          // Float64Array or null
+let uploadedFileName = null;
+
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('metric').value = 'beta';
-    toggleThresholdInput(); 
+    toggleThresholdInput();
+    initUploadZone();
 });
 
+// ============================================================
+// Data source toggle
+// ============================================================
+function setDataSource(source) {
+    currentDataSource = source;
+    document.getElementById('src-function').classList.toggle('active', source === 'function');
+    document.getElementById('src-upload').classList.toggle('active', source === 'upload');
+    document.getElementById('function-input-group').classList.toggle('hidden', source !== 'function');
+    document.getElementById('upload-input-group').classList.toggle('hidden', source !== 'upload');
+}
+
+// ============================================================
+// Format guide modal
+// ============================================================
+function toggleFormatModal() {
+    const modal = document.getElementById('format-modal');
+    modal.classList.toggle('hidden');
+    document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
+}
+
+function closeFormatModal(event) {
+    if (event.target.id === 'format-modal') toggleFormatModal();
+}
+
+// ============================================================
+// File upload — click, drag-and-drop
+// ============================================================
+function initUploadZone() {
+    const zone = document.getElementById('upload-zone');
+    if (!zone) return;
+
+    zone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        zone.classList.add('dragover');
+    });
+    zone.addEventListener('dragleave', function() {
+        zone.classList.remove('dragover');
+    });
+    zone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        zone.classList.remove('dragover');
+        if (e.dataTransfer.files.length) {
+            processFile(e.dataTransfer.files[0]);
+        }
+    });
+}
+
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) processFile(file);
+}
+
+function processFile(file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const parsed = parseTimeSeries(e.target.result);
+            uploadedSeries = parsed;
+            uploadedFileName = file.name;
+            showFileInfo(file.name, parsed.length);
+        } catch (err) {
+            uploadedSeries = null;
+            uploadedFileName = null;
+            resetUploadZone();
+            alert('Parse error: ' + err.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
+function parseTimeSeries(text) {
+    const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+    if (lines.length === 0) throw new Error('File is empty.');
+
+    // Detect delimiter from the first non-empty line
+    let startIdx = 0;
+    const delimiters = [',', ';', '\t', /\s+/];
+
+    function splitLine(line) {
+        for (const d of delimiters) {
+            const parts = line.split(d).map(s => s.trim()).filter(s => s.length > 0);
+            if (parts.length > 1) return parts;
+        }
+        return [line.trim()];
+    }
+
+    // Check if first line is a header (contains non-numeric tokens)
+    const firstParts = splitLine(lines[0]);
+    const isHeader = firstParts.some(p => isNaN(parseFloat(p)));
+    if (isHeader) startIdx = 1;
+
+    const values = [];
+    for (let i = startIdx; i < lines.length; i++) {
+        const parts = splitLine(lines[i]);
+        // Take last column as the value
+        const raw = parts[parts.length - 1];
+        const val = parseFloat(raw);
+        if (!isFinite(val)) throw new Error(`Non-numeric value on line ${i + 1}: "${raw}"`);
+        values.push(val);
+    }
+
+    if (values.length < 3) throw new Error('Need at least 3 data points.');
+    return values;
+}
+
+function showFileInfo(name, length) {
+    const zone = document.getElementById('upload-zone');
+    zone.classList.add('has-file');
+    document.getElementById('upload-label').textContent = name;
+    document.getElementById('upload-sublabel').textContent = length + ' samples loaded';
+    document.getElementById('file-info').classList.remove('hidden');
+    document.getElementById('file-info-text').textContent = name + '  —  ' + length + ' points';
+}
+
+function clearUploadedFile() {
+    uploadedSeries = null;
+    uploadedFileName = null;
+    document.getElementById('file-input').value = '';
+    resetUploadZone();
+}
+
+function resetUploadZone() {
+    const zone = document.getElementById('upload-zone');
+    zone.classList.remove('has-file');
+    document.getElementById('upload-label').textContent = 'Click or drop a file here';
+    document.getElementById('upload-sublabel').textContent = '.csv, .txt, or .tsv';
+    document.getElementById('file-info').classList.add('hidden');
+}
+
+// ============================================================
+// Original helpers (unchanged)
+// ============================================================
 function toggleAuthorModal(event) {
     if (event) event.preventDefault();
     const modal = document.getElementById('author-modal');
@@ -11,9 +151,7 @@ function toggleAuthorModal(event) {
 }
 
 function closeAuthorModal(event) {
-    if (event.target.id === 'author-modal') {
-        toggleAuthorModal();
-    }
+    if (event.target.id === 'author-modal') toggleAuthorModal();
 }
 
 function toggleMobileMenu() {
@@ -25,15 +163,9 @@ function copyCode(text, btnElement) {
     navigator.clipboard.writeText(text).then(() => {
         const icon = btnElement.querySelector('i');
         const originalClass = icon.className;
-        
         icon.className = 'fa-solid fa-check text-green-400';
-        
-        setTimeout(() => {
-            icon.className = originalClass;
-        }, 2000);
-    }).catch(err => {
-        console.error('Failed to copy: ', err);
-    });
+        setTimeout(() => { icon.className = originalClass; }, 2000);
+    }).catch(err => console.error('Failed to copy: ', err));
 }
 
 const bibtexData = {
@@ -60,29 +192,22 @@ function copyBibtex(id, btnElement) {
             const icon = btnElement.querySelector('i');
             const originalClass = icon.className;
             icon.className = 'fa-solid fa-check text-green-500';
-            setTimeout(() => {
-                icon.className = originalClass;
-            }, 2000);
+            setTimeout(() => { icon.className = originalClass; }, 2000);
         }).catch(err => console.error('Failed to copy BibTeX: ', err));
     }
 }
 
 function copyObfuscatedEmail(user, domain, btnElement) {
     const email = user + '@' + domain;
-    
     navigator.clipboard.writeText(email).then(() => {
         const icon = btnElement.querySelector('i');
         const originalClass = icon.className;
-        
         icon.className = 'fa-solid fa-check text-green-500';
         btnElement.innerHTML = `<i class="${icon.className} mr-1"></i> Copied!`;
-        
         setTimeout(() => {
             btnElement.innerHTML = `<i class="${originalClass} mr-1"></i> Copy Email`;
         }, 2000);
-    }).catch(err => {
-        console.error('Failed to copy email: ', err);
-    });
+    }).catch(err => console.error('Failed to copy email: ', err));
 }
 
 function toggleBeta() {
@@ -94,12 +219,7 @@ function toggleBeta() {
 function toggleThresholdInput() {
     const rpType = document.getElementById('rp_type').value;
     const thresholdInput = document.getElementById('threshold');
-    
-    if (rpType === 'unthresholded') {
-        thresholdInput.disabled = true;
-    } else {
-        thresholdInput.disabled = false;
-    }
+    thresholdInput.disabled = (rpType === 'unthresholded');
 }
 
 function downloadImage() {
@@ -129,7 +249,6 @@ function getViridisColor(t) {
     ];
     if (t <= 0) return stops[0].c;
     if (t >= 1) return stops[4].c;
-
     for (let i = 0; i < stops.length - 1; i++) {
         if (t >= stops[i].pct && t <= stops[i+1].pct) {
             let range = stops[i+1].pct - stops[i].pct;
@@ -143,11 +262,13 @@ function getViridisColor(t) {
     }
 }
 
+// ============================================================
+// Main RP calculation — now supports both data sources
+// ============================================================
 async function calculateRP() {
-    const funcStr = document.getElementById("function").value;
     const metric = document.getElementById("metric").value;
     const beta = parseFloat(document.getElementById('beta').value);
-    const rpType = document.getElementById('rp_type').value; 
+    const rpType = document.getElementById('rp_type').value;
     const threshold = parseFloat(document.getElementById('threshold').value);
     const m = parseInt(document.getElementById('embedding_dim').value);
     const tau = parseInt(document.getElementById('time_delay').value);
@@ -170,12 +291,25 @@ async function calculateRP() {
     await new Promise(r => setTimeout(r, 50));
 
     try {
-        const t = linspace(0, 10, 500);
-        const compiled = math.compile(funcStr);
-        const series = t.map(v => compiled.evaluate({x: v}));
+        let series;
+        let titleLabel;
+
+        if (currentDataSource === 'function') {
+            const funcStr = document.getElementById("function").value;
+            const t = linspace(0, 10, 500);
+            const compiled = math.compile(funcStr);
+            series = t.map(v => compiled.evaluate({x: v}));
+            titleLabel = `f(x) = ${funcStr}`;
+        } else {
+            if (!uploadedSeries || uploadedSeries.length === 0) {
+                throw new Error("No data loaded. Please upload a file first.");
+            }
+            series = uploadedSeries;
+            titleLabel = uploadedFileName || 'uploaded data';
+        }
 
         if (metric === 'beta' && series.some(val => val <= 0)) {
-            throw new Error("For Beta divergence, the function must evaluate strictly to > 0 on the interval.");
+            throw new Error("For Beta divergence, all values must be strictly > 0.");
         }
 
         const N = series.length;
@@ -236,20 +370,19 @@ async function calculateRP() {
         for (let i = 0; i < N_prime; i++) {
             for (let j = 0; j < N_prime; j++) {
                 let dist = distances[i][j];
-                
                 let canvasX = j;
-                let canvasY = N_prime - 1 - i; 
+                let canvasY = N_prime - 1 - i;
                 let idx = (canvasY * N_prime + canvasX) * 4;
 
                 if (rpType === 'thresholded') {
                     if (dist < threshold) {
-                        imgData.data[idx] = 0; 
-                        imgData.data[idx+1] = 0; 
-                        imgData.data[idx+2] = 0; 
+                        imgData.data[idx] = 0;
+                        imgData.data[idx+1] = 0;
+                        imgData.data[idx+2] = 0;
                     } else {
                         imgData.data[idx] = 255;
-                        imgData.data[idx+1] = 255; 
-                        imgData.data[idx+2] = 255; 
+                        imgData.data[idx+1] = 255;
+                        imgData.data[idx+2] = 255;
                     }
                     imgData.data[idx+3] = 255;
                 } else {
@@ -267,7 +400,8 @@ async function calculateRP() {
         loadingElement.classList.remove('flex');
         loadingElement.classList.add('hidden');
 
-        plotTitle.innerText = metric === 'beta' ? `β-RP: f(x) = ${funcStr}` : `Euclidean-RP: f(x) = ${funcStr}`;
+        const metricLabel = metric === 'beta' ? 'β-RP' : 'Euclidean-RP';
+        plotTitle.innerText = `${metricLabel}: ${titleLabel}`;
         plotTitle.classList.remove('hidden');
 
         imgElement.src = canvas.toDataURL("image/png");
